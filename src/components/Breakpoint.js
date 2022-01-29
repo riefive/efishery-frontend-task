@@ -20,7 +20,7 @@ const Breakpoint = () => {
     const calcInnerWidth = () => {
       debounce(() => {
         setBreakpoint(deviceConfigs(window.innerWidth))
-      }, 300)();
+      }, 100)();
     };
 
     window.addEventListener('resize', calcInnerWidth);

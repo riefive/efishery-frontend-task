@@ -6,10 +6,11 @@ function LayoutWide({ children }) {
   return (
     <div className="flex bg-white w-full">
       <div className="flex-none bg-blue-400 w-2/12 h-screen p-[20px]">
-          <div className="text-3xl text-gray-50 font-medium capitalize">
+          <div className="text-2xl text-gray-50 text-center font-semibold capitalize">
             { String(process.env.REACT_APP_NAME || '').toLowerCase() }
           </div>
-          <div className="mt-[55px]">
+          <div className="border-t-4 border-gray-50 my-[5px]" />
+          <div className="mt-[25px]">
           {
             (() => {
               let container = [];
@@ -28,7 +29,7 @@ function LayoutWide({ children }) {
                       { icon }
                     </div>
                     <div key={index} className="flex-none mt-[3px]">
-                      <span className="text-xl text-gray-50 font-normal capitalize">{ value.text }</span>
+                      <span className="text-lg text-gray-50 font-normal capitalize">{ value.text }</span>
                     </div>
                   </div>
                 )

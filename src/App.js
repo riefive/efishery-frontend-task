@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
+import LayoutSmall from './components/LayoutSmall'
 import LayoutWide from './components/LayoutWide'
 import * as ApiList from './services/service_list_api.js';
 import * as ApiRegion from './services/service_region_api.js';
@@ -11,6 +12,17 @@ import * as StoreSize from './stores/store_size.js';
 import Breakpoint from './components/Breakpoint';
 
 function HomePage() {
+  const point = Breakpoint();
+  const Layout = ['xs', 'sm', 'md'].includes(point) ? LayoutSmall : LayoutWide;
+
+  return (
+    <Layout>
+      <h1>Welcome Page</h1>
+    </Layout>
+  )
+}
+
+function AboutPage() {
   return (
     <div>
       <h1>Welcome Page</h1>
@@ -61,19 +73,14 @@ function App() {
   console.log(listState)
   console.log(regionState)
   console.log(sizeState)
-  const point = Breakpoint();
-  console.log(point)
 
   return (
-    <LayoutWide>
     <Router>
         <Routes>
-          <Route exact path="/">
-            { HomePage }
-          </Route>
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/about" element={<AboutPage />} />
         </Routes>
     </Router>
-    </LayoutWide>
   );
 }
 
