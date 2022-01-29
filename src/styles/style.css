@@ -15,8 +15,12 @@
 		@apply hover:text-gray-900 hover:bg-gray-200 focus:text-gray-900 focus:bg-gray-200 focus:outline-none rounded-md;
 	}
 
-	button[type="submit"] {
-		@apply text-white bg-green-700 w-full;
+	.menu-active {
+		@apply bg-gray-200 outline-none rounded-md;
+	}
+
+	button[type="submit"], .btn-success:hover {
+		@apply text-white bg-blue-400 w-full;
 	}
 }
 

@@ -1,20 +1,31 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { Loading } from './Loading';
 import { LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
-import { createForm, handleSubmit } from '../handlers/eventhandlers';
+import { createForm, foundById, handleSubmit } from '../handlers/eventhandlers';
 
-function PageListAdd() {
+function PageListEdit() {
+  const { id } = useParams()
   const Layout = LayoutSelect()
   const [ state, dispatch ] = useContext(StoreContext)
 
-  const type = 'save'
+  useEffect(() => {
+    dispatch({ type: 'SET_LOADING', payload: true })
+    dispatch({ type: 'SET_LIST_CURRENT', payload: {} })
+    foundById(id).then((result) => {
+      dispatch({ type: 'SET_LIST_CURRENT', payload: result })
+      dispatch({ type: 'SET_LOADING', payload: false })
+    })
+  }, [])
+
+  const type = 'edit'
   const formConfigs = createForm(state, type)
 
   return (
     <Layout>
-      <div id="save" className="w-11/12 mx-auto">
+      <div id="edit" className="w-11/12 mx-auto">
       { 
           (() => {
             if (state.loading) {
@@ -29,4 +40,4 @@ function PageListAdd() {
   )
 }
 
-export default PageListAdd
+export default PageListEdit

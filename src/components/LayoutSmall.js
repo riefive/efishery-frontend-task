@@ -4,6 +4,7 @@ import { SearchIcon } from '@heroicons/react/outline'
 import { menus } from '../handlers/constants.js'
 
 function LayoutSmall({ children }) {
+  const pathName = window?.location?.pathname || null
   return (
     <div className="relative w-full">
       <div className="fixed top-0 flex items-center bg-blue-400 w-full h-[50px] z-10">
@@ -22,12 +23,14 @@ function LayoutSmall({ children }) {
             let container = [];
             menus?.forEach((value, index) => {
               let icon = null
+              const iconClass = pathName === value.click ? 'h-8 w-8 text-blue-400' : 'h-8 w-8 text-black-50'
+              const textClass = pathName === value.click ? 'text-sm text-center text-blue-400 font-normal capitalize' : 'text-sm text-center text-black-50 font-normal capitalize'
               if (value.id === 1) {
-                icon = <SearchIcon className="h-8 w-8 text-black-50"/>
+                icon = <SearchIcon className={iconClass} />
               } else if (value.id === 2) {
-                icon = <ViewBoardsIcon className="h-8 w-8 text-black-50"/>
+                icon = <ViewBoardsIcon className={iconClass} />
               } else {
-                icon = <PlusIcon className="h-8 w-8 text-black-50"/>
+                icon = <PlusIcon className={iconClass} />
               }
               container.push(
                 <Link key={index} to={value.click} className="menu-hover-small flex flex-col justify-center items-center cursor-pointer select-none" style={{textDecoration: "none"}}>
@@ -35,7 +38,7 @@ function LayoutSmall({ children }) {
                     { icon }
                   </div>
                   <div className="flex-none mt-[3px]">
-                    <span className="text-sm text-center text-black-50 font-normal capitalize">{ value.text }</span>
+                    <span className={textClass}>{ value.text }</span>
                   </div>
                 </Link>
               )

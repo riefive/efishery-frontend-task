@@ -15,6 +15,8 @@ function mapperToServer(data, isSave = false) {
   if (isSave) {
     const dateCurrent = new Date()
     Object.assign(maps, { tgl_parsed: dateCurrent.toISOString(), timestamp: dateCurrent.getTime() })
+  } else {
+    delete maps.uuid
   }
   return maps
 }
@@ -41,6 +43,8 @@ export async function get(data) {
   const params = {}
   if (!data?.limit) {
     params.limit = 15
+  } else {
+    params.limit = data.limit
   }
   if (data?.offset) {
     params.offset = data.offset || 1
@@ -48,8 +52,8 @@ export async function get(data) {
   if (data?.search) {
     const details = {}
     const search = data.search
-    if (search?.uuid) {
-      Object.assign(details, { uuid: search.uuid?.toString() })
+    if (search?.id) {
+      Object.assign(details, { uuid: search.id?.toString() })
     } 
     if (search?.name) {
       Object.assign(details, { komoditas: search.name?.toString() })

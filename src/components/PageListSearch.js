@@ -9,6 +9,7 @@ import { createForm, handleSubmit } from '../handlers/eventhandlers';
 function PageSearch() {
   const Layout = LayoutSelect()
   const [ state, dispatch ] = useContext(StoreContext)
+
   const type = 'search'
   const formConfigs = createForm(state, type)
 
@@ -20,26 +21,26 @@ function PageSearch() {
             if (state.loading) {
               return <Loading />
             } else if (!state.loading && state.listFilters?.length === 0) {
-              return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, dispatch, type)}/>
+              return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, type)}/>
             } else {
               const lists = state.listFilters
               const ListComponents = [] 
               lists?.forEach((item, index) => { 
                 const Marker = !item.areaKota ? null : 
                     <div className="flex">
-                      <LocationMarkerIcon className="w-5 h-5 mr-[5px]" />
+                      <LocationMarkerIcon className="w-5 h-5 text-gray-700 mr-[5px]" />
                       { item.areaKota } - { item.areaProvinsi }
                     </div>
                 ListComponents.push(
-                  <div key={index} className="card w-full select-none mb-[5px]">
+                  <div key={index} className="card w-full select-none mb-[10px]">
                     <div className="flex flex-col capitalize">
                       { (index+1) }. { item.komoditas || 'Tidak Ada Nama' }
                       <div className="flex">
-                        <CashIcon className="w-5 h-5 mr-[5px]" />
+                        <CashIcon className="w-5 h-5 text-green-300 mr-[5px]" />
                         Rp. { item.price || 0 }
                       </div>
                       <div className="flex">
-                        <InformationCircleIcon className="w-5 h-5 mr-[5px]" />
+                        <InformationCircleIcon className="w-5 h-5 text-blue-300 mr-[5px]" />
                         { item.size || 0 }
                       </div>
                       { Marker }
@@ -50,6 +51,9 @@ function PageSearch() {
               return (
                 <div>
                   <Refreshing click={() => { dispatch({ type: 'SET_LISTS_FILTER', payload: [] }) }} />
+                  <div className="text-md font-medium capitalize mt-[10px] mb-[5px]">
+                    ditemukan sebanyak { lists.length } data.
+                  </div>
                   <div className="my-[10px]">
                     { ListComponents }
                   </div>

@@ -3,6 +3,7 @@ import { createContext, useReducer } from 'react'
 export const initialState = {
   lists: [],
   listFilters: [],
+  listCurrent: {},
   provinces: [],
   cities: [],
   sizes: [],
@@ -25,6 +26,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         listFilters: action.payload
+      };
+    case 'SET_LIST_CURRENT':
+      return {
+        ...state,
+        listCurrent: action.payload
       };
     case 'SET_PROVINCES':
       return {
