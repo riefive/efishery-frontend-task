@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.card {
+    @apply p-2.5 rounded-md shadow-card;
+	}
+
+	.menu-active {
+		@apply text-gray-900 bg-gray-200 outline-none rounded-md;
+	}
+
+	.menu-hover {
+		@apply hover:text-gray-900 hover:bg-gray-200 focus:text-gray-900 focus:bg-gray-200 focus:outline-none rounded-md;
+	}
+}
+
+@layer base {
+	body {
+		font-family: 'Poppins', sans-serif;
+	}
+}

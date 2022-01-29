@@ -1,11 +1,22 @@
 import React, { useEffect, useReducer } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
+import LayoutWide from './components/LayoutWide'
 import * as ApiList from './services/service_list_api.js';
 import * as ApiRegion from './services/service_region_api.js';
 import * as ApiSize from './services/service_size_api.js';
 import * as StoreList from './stores/store_pricelist.js';
 import * as StoreRegion from './stores/store_region.js';
 import * as StoreSize from './stores/store_size.js';
+import Breakpoint from './components/Breakpoint';
+
+function HomePage() {
+  return (
+    <div>
+      <h1>Welcome Page</h1>
+    </div>
+  )
+}
 
 function App() {
   const [listState, listDispatch] = useReducer(StoreList.reducer, StoreList.initialState)
@@ -47,22 +58,22 @@ function App() {
     })
   }, [])
 
-  if (Array.isArray(listState) && listState.length > 0) {
-    console.log(listState)
-  }
-  if (Array.isArray(regionState) && regionState.length > 0) {
-    console.log(regionState)
-  }
-  if (Array.isArray(sizeState) && sizeState.length > 0) {
-    console.log(sizeState)
-  }
+  console.log(listState)
+  console.log(regionState)
+  console.log(sizeState)
+  const point = Breakpoint();
+  console.log(point)
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </div>
+    <LayoutWide>
+    <Router>
+        <Routes>
+          <Route exact path="/">
+            { HomePage }
+          </Route>
+        </Routes>
+    </Router>
+    </LayoutWide>
   );
 }
 
