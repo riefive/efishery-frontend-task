@@ -19,6 +19,10 @@
 		@apply bg-gray-200 outline-none rounded-md;
 	}
 
+	.button {
+		@apply flex justify-center items-center text-white rounded-md w-full h-10;
+	}
+
 	.button-paginate {
 		@apply flex justify-center items-center text-white bg-blue-400 rounded-md w-10 h-10;
 	}

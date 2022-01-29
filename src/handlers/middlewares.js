@@ -31,7 +31,7 @@ export async function fetchData() {
 export function LayoutSelect() {
   const point = Breakpoint();
   const Layout = ['xs', 'sm', 'md'].includes(point) ? LayoutSmall : LayoutWide;
-  return Layout
+  return { point, Layout }
 }
 
 export function Initialized(state, dispatch) {

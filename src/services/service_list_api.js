@@ -1,3 +1,4 @@
+import { validate as uuidValidate } from 'uuid';
 import StoreApi from './api_connector'
 import { parsedArray, parsedObject } from './api_parser'
 
@@ -30,12 +31,14 @@ export async function add(data) {
 export async function update(id, data) {
   if (!StoreApi) return null
   const params = mapperToServer(data)
-  return await StoreApi.edit(endPoint, { search: { uuid: id }, set: params }).then((result) => parsedObject(result))
+  const search = uuidValidate(id) ? { uuid: id } : { komoditas: id }
+  return await StoreApi.edit(endPoint, { search, set: params }).then((result) => parsedObject(result))
 }
 
 export async function remove(id) {
   if (!StoreApi) return null
-  return await StoreApi.delete(endPoint, { search: { uuid: id } }).then((result) => parsedObject(result))
+  const search = uuidValidate(id) ? { uuid: id } : { komoditas: id }
+  return await StoreApi.delete(endPoint, { search }).then((result) => parsedObject(result))
 }
 
 export async function get(data) {

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { CashIcon, CalendarIcon, InformationCircleIcon, LocationMarkerIcon } from '@heroicons/react/outline';
 import { Loading, Refreshing, NotFound } from './Support';
@@ -7,7 +8,8 @@ import { StoreContext } from '../handlers/stores';
 import { createForm, handleSubmit } from '../handlers/eventhandlers';
 
 function PageSearch() {
-  const Layout = LayoutSelect()
+  const navigate = useNavigate();
+  const { Layout } = LayoutSelect()
   const [ state, dispatch ] = useContext(StoreContext)
 
   const type = 'search'
@@ -36,7 +38,7 @@ function PageSearch() {
                   </div>
                 )
               } else {
-                return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, type)}/>
+                return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, navigate, type)}/>
               }
             } else {
               const lists = state.listFilters

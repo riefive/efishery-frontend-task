@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { Loading, NotFound } from './Support';
 import { LayoutSelect } from '../handlers/middlewares';
@@ -7,18 +7,21 @@ import { StoreContext } from '../handlers/stores';
 import { createForm, foundById, handleSubmit } from '../handlers/eventhandlers';
 
 function PageListEdit() {
-  const { id } = useParams()
-  const Layout = LayoutSelect()
+  const { id } = useParams();
+  const search = useLocation().search;
+  const navigate = useNavigate();
+  const byType = new URLSearchParams(search).get('by');
+  const { Layout } = LayoutSelect()
   const [ state, dispatch ] = useContext(StoreContext)
 
   useEffect(() => {
     dispatch({ type: 'SET_LOADING', payload: true })
     dispatch({ type: 'SET_LIST_CURRENT', payload: {} })
-    foundById(id).then((result) => {
+    foundById(id, byType).then((result) => {
       dispatch({ type: 'SET_LIST_CURRENT', payload: result })
       dispatch({ type: 'SET_LOADING', payload: false })
     })
-  }, [id, dispatch])
+  }, [id, dispatch, byType])
 
   const type = 'edit'
   const formConfigs = createForm(state, type)
@@ -30,8 +33,8 @@ function PageListEdit() {
           (() => {
             if (state.loading) {
               return <Loading />
-            } else if (state?.listCurrent && state?.listCurrent?.uuid) {
-              return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, type)}/>
+            } else if (state?.listCurrent && (state?.listCurrent?.uuid || state?.listCurrent?.komoditas)) {
+              return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, navigate, type)}/>
             } else {
               return <NotFound name={id} />
             }
