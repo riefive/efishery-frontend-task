@@ -7,11 +7,17 @@ export const initialState = {
   provinces: [],
   cities: [],
   sizes: [],
+  searchStatus: false,
   loading: false
 };
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case 'SET_SEARCH_STATUS': 
+      return {
+        ...state,
+        searchStatus: action.payload || false
+      }
     case 'SET_LOADING': 
       return {
         ...state,

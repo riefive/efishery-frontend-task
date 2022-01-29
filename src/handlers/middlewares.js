@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Breakpoint from '../components/Breakpoint';
 import LayoutSmall from '../components/LayoutSmall';
 import LayoutWide from '../components/LayoutWide';
@@ -36,22 +35,20 @@ export function LayoutSelect() {
 }
 
 export function Initialized(state, dispatch) {
-  useEffect(() => {
-    fetchInit().then(result => {
-      if (state?.provinces && state.provinces.length === 0) {
-        dispatch({ type: 'SET_PROVINCES', payload: result?.provinces })
-      }
-      if (state?.cities && state.cities.length === 0) {
-        dispatch({ type: 'SET_CITIES', payload: result?.cities })
-      }
-      if (state?.sizes && state.sizes.length === 0) {
-        dispatch({ type: 'SET_SIZES', payload: result?.sizes })
-      }
-    })
-    fetchData().then(result => {
-      if (state?.lists && state.lists.length === 0) {
-        dispatch({ type: 'SET_LISTS', payload: result })
-      }
-    })
-  }, [])
+  fetchInit().then(result => {
+    if (state?.provinces && state.provinces.length === 0) {
+      dispatch({ type: 'SET_PROVINCES', payload: result?.provinces })
+    }
+    if (state?.cities && state.cities.length === 0) {
+      dispatch({ type: 'SET_CITIES', payload: result?.cities })
+    }
+    if (state?.sizes && state.sizes.length === 0) {
+      dispatch({ type: 'SET_SIZES', payload: result?.sizes })
+    }
+  })
+  fetchData().then(result => {
+    if (state?.lists && state.lists.length === 0) {
+      dispatch({ type: 'SET_LISTS', payload: result })
+    }
+  })
 }

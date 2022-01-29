@@ -82,6 +82,7 @@ async function handleSubmit(payloads, state, dispatch, type) {
   
   if (type === 'search') {
     dispatch({ type: 'SET_LOADING', payload: true })
+    dispatch({ type: 'SET_SEARCH_STATUS', payload: true })
     const lists = await ApiList.get(Object.assign(params, { search: object }))
     dispatch({ type: 'SET_LISTS_FILTER', payload: lists })
     dispatch({ type: 'SET_LOADING', payload: false })

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
-import { Loading } from './Support';
+import { Loading, NotFound } from './Support';
 import { LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
 import { createForm, foundById, handleSubmit } from '../handlers/eventhandlers';
@@ -18,7 +18,7 @@ function PageListEdit() {
       dispatch({ type: 'SET_LIST_CURRENT', payload: result })
       dispatch({ type: 'SET_LOADING', payload: false })
     })
-  }, [])
+  }, [id, dispatch])
 
   const type = 'edit'
   const formConfigs = createForm(state, type)
@@ -30,8 +30,10 @@ function PageListEdit() {
           (() => {
             if (state.loading) {
               return <Loading />
-            } else {
+            } else if (state?.listCurrent && state?.listCurrent?.uuid) {
               return <JsonToForm model={formConfigs} onSubmit={(value) => handleSubmit(value, state, dispatch, type)}/>
+            } else {
+              return <NotFound name={id} />
             }
           })()
         }

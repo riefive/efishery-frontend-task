@@ -1,12 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Initialized, LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
 
 function PageList() {
   const Layout = LayoutSelect()
   const [ state, dispatch ] = useContext(StoreContext)
-  Initialized(state, dispatch)
 
+  useEffect(() => {
+    Initialized(state, dispatch)
+  }, [])
+  
   return (
     <Layout>
       {
