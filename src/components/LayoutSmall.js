@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
 import { SearchIcon } from '@heroicons/react/outline'
-import { menus } from '../helpers/constants.js'
+import { menus } from '../handlers/constants.js'
 
 function LayoutSmall({ children }) {
   return (
@@ -29,14 +30,14 @@ function LayoutSmall({ children }) {
                 icon = <PlusIcon className="h-8 w-8 text-black-50"/>
               }
               container.push(
-                <div className="flex flex-col justify-center items-center cursor-pointer select-none">
+                <Link className="flex flex-col justify-center items-center cursor-pointer select-none no-underline" to={value.click}>
                   <div className="flex-none mr-[5px]">
                     { icon }
                   </div>
                   <div key={index} className="flex-none mt-[3px]">
                     <span className="text-sm text-center text-black-50 font-normal capitalize">{ value.text }</span>
                   </div>
-                </div>
+                </Link>
               )
             });
             return container;

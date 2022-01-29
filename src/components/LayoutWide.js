@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
 import { SearchIcon } from '@heroicons/react/outline'
-import { menus } from '../helpers/constants.js'
+import { menus } from '../handlers/constants.js'
 
 function LayoutWide({ children }) {
   return (
@@ -17,21 +18,21 @@ function LayoutWide({ children }) {
               menus?.forEach((value, index) => {
                 let icon = null
                 if (value.id === 1) {
-                  icon = <SearchIcon className="h-8 w-8 text-gray-50"/>
+                  icon = <SearchIcon className="h-8 md:h-6 w-8 md:w-6 text-gray-50"/>
                 } else if (value.id === 2) {
-                  icon = <ViewBoardsIcon className="h-8 w-8 text-gray-50"/>
+                  icon = <ViewBoardsIcon className="h-8 md:h-6 w-8 md:w-6 text-gray-50"/>
                 } else {
-                  icon = <PlusIcon className="h-8 w-8 text-gray-50"/>
+                  icon = <PlusIcon className="h-8 md:h-6 w-8 md:w-6 text-gray-50"/>
                 }
                 container.push(
-                  <div className="menu-hover flex flex-row cursor-pointer select-none p-[10px] mb-[10px]">
+                  <Link to={value.click} className="menu-hover flex flex-row cursor-pointer select-none p-[10px] mb-[10px]" style={{"text-decoration": "none"}}>
                     <div className="flex-none mr-[5px]">
                       { icon }
                     </div>
-                    <div key={index} className="flex-none mt-[3px]">
-                      <span className="text-lg text-gray-50 font-normal capitalize">{ value.text }</span>
+                    <div key={index} className="flex-none mt-[3px] md:mt-[1px]">
+                      <span className="text-lg md:text-sm text-gray-50 font-normal capitalize">{ value.text }</span>
                     </div>
-                  </div>
+                  </Link>
                 )
               });
               return container;
@@ -39,7 +40,7 @@ function LayoutWide({ children }) {
           }
           </div>
       </div>
-      <div className="flex-none w-8/12 h-screen p-[10px]">
+      <div className="flex-none w-8/12 h-screen p-[10px] mt-[10px]">
         { children }
       </div>
     </div>
