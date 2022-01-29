@@ -5,7 +5,7 @@ import * as ApiList from '../services/service_list_api';
 import * as ApiRegion from '../services/service_region_api';
 import * as ApiSize from '../services/service_size_api';
 
-async function fetchInit() {
+export async function fetchInit() {
   const regions = await ApiRegion.get();
   const sizes = await ApiSize.get();
   const provinces = [], cities = [];
@@ -23,7 +23,7 @@ async function fetchInit() {
   return { provinces, cities, sizes: Array.isArray(sizes) ? sizes : [] }
 }
 
-async function fetchData() {
+export async function fetchData() {
   const lists = await ApiList.get()
   return Array.isArray(lists) ? lists : []
 }

@@ -7,6 +7,7 @@ export const initialState = {
   provinces: [],
   cities: [],
   sizes: [],
+  params: null,
   searchStatus: false,
   loading: false
 };
@@ -22,6 +23,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         loading: action.payload || false
+      }
+    case 'SET_PARAMS': 
+      return {
+        ...state,
+        params: action.payload || null
       }
     case 'SET_LISTS':
       return {

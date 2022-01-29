@@ -60,6 +60,27 @@ function createForm(state, type = 'search') {
   return formConfigs
 }
 
+async function handlePagination(page, state, dispatch) {
+  const object = state?.params || {}
+  dispatch({ type: 'SET_LOADING', payload: true })
+  const lists = await ApiList.get(Object.assign({ offset: page }, { search: object }))
+  dispatch({ type: 'SET_LISTS', payload: lists })
+  dispatch({ type: 'SET_LOADING', payload: false })
+}
+
+async function handleSearch(payloads, state, dispatch) {
+  const object = {}
+  if (payloads['Cari Komoditas']) {
+    object.name = payloads['Cari Komoditas']
+  }
+  dispatch({ type: 'SET_LOADING', payload: true })
+  dispatch({ type: 'SET_PARAMS', payload: null })
+  const lists = await ApiList.get({ search: object })
+  dispatch({ type: 'SET_LISTS', payload: lists })
+  dispatch({ type: 'SET_PARAMS', payload: object })
+  dispatch({ type: 'SET_LOADING', payload: false })
+}
+
 async function handleSubmit(payloads, state, dispatch, type) {
   const object = {}
   const params = { limit: 50 }
@@ -110,5 +131,7 @@ async function foundById(id) {
 export {
   createForm,
   foundById,
+  handlePagination,
+  handleSearch,
   handleSubmit
 }
