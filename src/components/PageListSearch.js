@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import JsonToForm from 'json-reactform';
-import { Loading, Refreshing } from './Loading';
+import { Loading, Refreshing } from './Support';
 import { CashIcon, InformationCircleIcon, LocationMarkerIcon } from "@heroicons/react/outline";
 import { LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';

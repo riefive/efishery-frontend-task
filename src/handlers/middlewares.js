@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import Breakpoint from '../components/Breakpoint';
 import LayoutSmall from '../components/LayoutSmall';
 import LayoutWide from '../components/LayoutWide';
-import * as ApiList from '../services/service_list_api.js';
-import * as ApiRegion from '../services/service_region_api.js';
-import * as ApiSize from '../services/service_size_api.js';
+import * as ApiList from '../services/service_list_api';
+import * as ApiRegion from '../services/service_region_api';
+import * as ApiSize from '../services/service_size_api';
 
 async function fetchInit() {
   const regions = await ApiRegion.get();

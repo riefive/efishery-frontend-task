@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
 import { SearchIcon } from '@heroicons/react/outline'
-import { menus } from '../handlers/constants.js'
+import { menus } from '../handlers/constants'
 
 function LayoutSmall({ children }) {
   const pathName = window?.location?.pathname || null

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import JsonToForm from 'json-reactform';
-import { Loading } from './Loading';
+import { Loading } from './Support';
 import { LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
 import { createForm, handleSubmit } from '../handlers/eventhandlers';

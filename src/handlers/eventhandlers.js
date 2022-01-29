@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import * as ApiList from '../services/service_list_api.js';
+import * as ApiList from '../services/service_list_api';
 
 function createForm(state, type = 'search') {
   const required = type !== 'search'
