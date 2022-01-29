@@ -38,7 +38,6 @@ export function Initialized(state, dispatch) {
     }
 
     fetchInit().then(result => {
-      state.prices = [ {id: 1} ]
       dispatch({ type: 'SET_PROVINCES', payload: result?.provinces })
       dispatch({ type: 'SET_CITIES', payload: result?.cities })
       dispatch({ type: 'SET_SIZES', payload: result?.sizes })

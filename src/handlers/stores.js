@@ -5,17 +5,23 @@ export const initialState = {
   listFilters: [],
   provinces: [],
   cities: [],
-  sizes: []
+  sizes: [],
+  loading: false
 };
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case 'SET_LOADING': 
+      return {
+        ...state,
+        loading: action.payload || false
+      }
     case 'SET_LISTS':
       return {
         ...state,
         lists: action.payload
       };
-    case 'SET_LIST_FILTER':
+    case 'SET_LISTS_FILTER':
       return {
         ...state,
         listFilters: action.payload

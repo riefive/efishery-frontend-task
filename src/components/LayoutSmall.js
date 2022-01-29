@@ -14,8 +14,8 @@ function LayoutSmall({ children }) {
       <div className="p-[10px] mt-[55px]">
         { children }
       </div>
-      <div className="fixed bottom-0 w-full">
-        <div className="border-t border-black-50 mb-[5px]" />
+      <div className="fixed bottom-0 bg-white w-full z-10">
+        <div className="border-t border-blue-400 mb-[5px]" />
         <div className="columns-3 gap-[3px] mb-[5px]">
         {
           (() => {
@@ -30,11 +30,11 @@ function LayoutSmall({ children }) {
                 icon = <PlusIcon className="h-8 w-8 text-black-50"/>
               }
               container.push(
-                <Link className="flex flex-col justify-center items-center cursor-pointer select-none no-underline" to={value.click}>
+                <Link key={index} to={value.click} className="menu-hover-small flex flex-col justify-center items-center cursor-pointer select-none" style={{textDecoration: "none"}}>
                   <div className="flex-none mr-[5px]">
                     { icon }
                   </div>
-                  <div key={index} className="flex-none mt-[3px]">
+                  <div className="flex-none mt-[3px]">
                     <span className="text-sm text-center text-black-50 font-normal capitalize">{ value.text }</span>
                   </div>
                 </Link>

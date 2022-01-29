@@ -49,22 +49,22 @@ export async function get(data) {
     const details = {}
     const search = data.search
     if (search?.uuid) {
-      Object.assign(details, { uuid: search.uuid })
+      Object.assign(details, { uuid: search.uuid?.toString() })
     } 
     if (search?.name) {
-      Object.assign(details, { komoditas: search.name })
+      Object.assign(details, { komoditas: search.name?.toString() })
     } 
     if (search?.size) {
-      Object.assign(details, { size: search.size })
+      Object.assign(details, { size: search.size?.toString() })
     }
     if (search?.price) {
-      Object.assign(details, { price: search.price })
+      Object.assign(details, { price: search.price?.toString() })
     }
     if (search?.city) {
-      Object.assign(details, { area_kota: search.city })
+      Object.assign(details, { area_kota: search.city?.toString() })
     }
     if (search?.province) {
-      Object.assign(details, { area_provinsi: search.city })
+      Object.assign(details, { area_provinsi: search.province?.toString() })
     }
     params.search = details
   }

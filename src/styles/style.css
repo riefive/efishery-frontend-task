@@ -4,7 +4,7 @@
 
 @layer components {
 	.card {
-    @apply p-2.5 rounded-md shadow-card;
+    @apply p-2.5 rounded-md;
 	}
 
 	.menu-active {
@@ -13,6 +13,10 @@
 
 	.menu-hover {
 		@apply hover:text-gray-900 hover:bg-gray-200 focus:text-gray-900 focus:bg-gray-200 focus:outline-none rounded-md;
+	}
+
+	button[type="submit"] {
+		@apply text-white bg-green-700 w-full;
 	}
 }
 
