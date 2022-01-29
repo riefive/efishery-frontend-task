@@ -47,12 +47,22 @@ function App() {
     })
   }, [])
 
-  console.log(listState)
-  console.log(regionState)
-  console.log(sizeState)
+  if (Array.isArray(listState) && listState.length > 0) {
+    console.log(listState)
+  }
+  if (Array.isArray(regionState) && regionState.length > 0) {
+    console.log(regionState)
+  }
+  if (Array.isArray(sizeState) && sizeState.length > 0) {
+    console.log(sizeState)
+  }
 
   return (
-    <div></div>
+    <div>
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
+    </div>
   );
 }
 
