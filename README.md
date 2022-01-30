@@ -20,4 +20,6 @@
 1. Development
 - Command: $ npm start
 2. Production
-- Command: $ npm run build && npm start
+- Command: $ npm run build
+- Command: $ npm install -g serve
+- Command: $ serve -s build

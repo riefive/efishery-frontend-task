@@ -35,6 +35,31 @@
 		@apply border rounded shadow appearance-none text-gray-700 focus:outline-none w-full py-2 px-3;
 	}
 
+	.scrollbar-thin {
+		-ms-overflow-style: thin !important; /* Internet Explorer 10+ */
+		scrollbar-width: thin !important; /* Firefox */
+	}
+
+	.scrollbar-thin::-webkit-scrollbar {
+		@apply bg-gray-300 w-[4px] h-[4px];
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-track {
+		@apply bg-gray-400 rounded-[20px];
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-thumb {
+		@apply bg-gray-400;
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+		@apply bg-gray-300 cursor-pointer;
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-thumb:horizontal {
+		@apply bg-gray-300;
+	}
+
 	button[type="submit"], .btn-success:hover {
 		@apply text-white bg-blue-400 w-full;
 	}

@@ -5,6 +5,11 @@ import { menus } from '../handlers/constants'
 
 function LayoutSmall({ children }) {
   const pathName = window?.location?.pathname || null
+  const body = document?.querySelector('body') || null
+  if (body) {
+    body.style.zoom = 1
+    setTimeout(() => { body.style.zoom = 1 }, 50)
+  }
   return (
     <div className="relative w-full">
       <div className="fixed top-0 flex items-center bg-blue-400 w-full h-[50px] z-10">
