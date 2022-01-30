@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -59,6 +59,36 @@ registerRoute(
       new ExpirationPlugin({ maxEntries: 50 }),
     ],
   })
+);
+
+registerRoute(
+  ({url}) => url.pathname.startsWith('/option_area'),
+  new CacheFirst({
+    cacheName: 'area-cache',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 1 * 24 * 60 * 60, // Only cache requests for a day
+        maxEntries: 50, // Only cache 50 requests.
+      }),
+    ]
+  })
+);
+
+registerRoute(
+  ({url}) => url.pathname.startsWith('/option_size'),
+  new CacheFirst({
+    cacheName: 'size-cache',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 1 * 24 * 60 * 60, // Only cache requests for a day
+        maxEntries: 50, // Only cache 50 requests.
+      }),
+    ]
+  })
+);
+
+registerRoute(
+  ({url}) => url.pathname.startsWith('/list'), new NetworkFirst()
 );
 
 // This allows the web app to trigger skipWaiting via
