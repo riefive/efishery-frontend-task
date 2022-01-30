@@ -7,10 +7,12 @@ import { tableColumns } from '../handlers/constants';
 import { fetchData, Initialized, LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
 import { handlePagination, handleRemove, handleSearch } from '../handlers/eventhandlers'
+import { debounce } from '../helpers/commons'
 
 function PageList() {
   const {point, Layout } = LayoutSelect()
   const [ page, setPage ] = useState(1)
+  const [ theLists, setTheLists ] = useState([])
   const [ rendered, setRendered ] = useState(false)
   const [ state, dispatch ] = useContext(StoreContext)
 
@@ -37,7 +39,37 @@ function PageList() {
 
   useEffect(() => {
     Initialized(state, dispatch)
-  }, [])
+    fetchData(state).then(result => {
+      if (state?.lists && state.lists.length === 0) {
+        dispatch({ type: 'SET_LISTS', payload: result })
+      }
+      setTheLists(result)
+    })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function handleFilter(event, item, lists) {
+    const name = item.name || null
+    const target = event?.target
+    if (target) {
+      const value = target?.value
+      debounce(() => {
+        if (value === '') {
+          dispatch({ type: 'SET_LISTS', payload: theLists })
+        } else {
+          let listUpdates = []
+          if (name === 'comodity') {
+            listUpdates = lists.filter(data => data.komoditas.toString().toLowerCase().includes(value.toLowerCase()))
+          } else if (name === 'size') {
+            listUpdates = lists.filter(data => Number(data.size) <= Number(value))
+          } else if (name === 'price') {
+            listUpdates = lists.filter(data => Number(data.price) <= Number(value))
+          }
+          dispatch({ type: 'SET_LISTS', payload: listUpdates })
+        }
+        dispatch({ type: 'SET_SEARCH_STATUS', payload: false })
+      }, 1000)()
+    }
+  }
 
   function handleColumn(index, item, lists) {
     setRendered(true)
@@ -79,6 +111,7 @@ function PageList() {
               fetchData().then(result => {
                 dispatch({ type: 'SET_PARAMS', payload: null })
                 dispatch({ type: 'SET_LISTS', payload: result })
+                dispatch({ type: 'SET_SEARCH_STATUS', payload: false })
                 setPage(1)
               })
             }
@@ -86,11 +119,13 @@ function PageList() {
 
           if (state.loading || rendered) {
             return <Loading />
-          } else if (!rendered && state?.lists && state.lists?.length > 0) {
-            const lists = state.lists || []
+          } else if (!rendered && state?.lists && state?.lists.length > 0) {
+            const lists = state?.lists || []
             const Rows = []
             const Columns = []
+            const Filters = []
             tableColumns?.forEach((item, index) => {
+              const inputType = item.name === 'comodity' ? 'text' : 'number'
               const SortIcon = item.sort && item.sort === 'asc' ? 
                 <ArrowDownIcon className="w-4 h-4 text-blue-400 mt-[2px]" /> : <ArrowUpIcon className="w-4 h-4 text-blue-400 mt-[2px]" />
               Columns.push(
@@ -99,6 +134,11 @@ function PageList() {
                     {item.text}
                     { SortIcon }
                   </div>
+                </th>
+              )
+              Filters.push(
+                <th key={`input-${index}`} className="p-[10px] w-10/12">
+                  <input type={inputType} className="input-text" onChange={(value) => handleFilter(value, item, lists)} />
                 </th>
               )
             })
@@ -188,6 +228,9 @@ function PageList() {
                   <thead>
                     <tr className="border-collapse border-t border-blue-400">
                       { Columns }
+                    </tr>
+                    <tr>
+                      { Filters }
                     </tr>
                   </thead>
                   <tbody>

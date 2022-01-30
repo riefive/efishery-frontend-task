@@ -31,6 +31,10 @@
 		@apply flex justify-center items-center text-black bg-gray-400 rounded-md w-10 h-10;
 	}
 
+	.input-text {
+		@apply border rounded shadow appearance-none text-gray-700 focus:outline-none w-full py-2 px-3;
+	}
+
 	button[type="submit"], .btn-success:hover {
 		@apply text-white bg-blue-400 w-full;
 	}

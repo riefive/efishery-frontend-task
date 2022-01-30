@@ -47,9 +47,4 @@ export function Initialized(state, dispatch) {
       dispatch({ type: 'SET_SIZES', payload: result?.sizes })
     }
   })
-  fetchData(state).then(result => {
-    if (state?.lists && state.lists.length === 0) {
-      dispatch({ type: 'SET_LISTS', payload: result })
-    }
-  })
 }

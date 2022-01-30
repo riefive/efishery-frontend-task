@@ -92,6 +92,7 @@ async function handleSearch(payloads, state, dispatch) {
   const lists = await ApiList.get({ search: object })
   dispatch({ type: 'SET_LISTS', payload: lists })
   dispatch({ type: 'SET_PARAMS', payload: object })
+  dispatch({ type: 'SET_SEARCH_STATUS', payload: true })
   dispatch({ type: 'SET_LOADING', payload: false })
 }
 
