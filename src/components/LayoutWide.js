@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
+import { PaperAirplaneIcon, PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
 import { SearchIcon } from '@heroicons/react/outline'
 import { menus } from '../handlers/constants'
 
@@ -9,7 +9,10 @@ function LayoutWide({ children }) {
     <div className="flex bg-white w-full">
       <div className="flex-none bg-blue-400 w-2/12 h-screen p-[20px]">
           <div className="text-2xl text-gray-50 text-center font-semibold capitalize">
-            { String(process.env.REACT_APP_NAME || '').toLowerCase() }
+            <div className="flex items-center">
+              <PaperAirplaneIcon className="icon w-6 h-6 mx-[5px]" />
+              { String(process.env.REACT_APP_NAME || '').toLowerCase() }
+            </div>
           </div>
           <div className="border-t-4 border-gray-50 my-[5px]" />
           <div className="mt-[25px]">

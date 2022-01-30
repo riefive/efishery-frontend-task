@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
+import { PaperAirplaneIcon, PlusIcon, ViewBoardsIcon } from '@heroicons/react/solid'
 import { SearchIcon } from '@heroicons/react/outline'
 import { menus } from '../handlers/constants'
 
@@ -8,9 +8,12 @@ function LayoutSmall({ children }) {
   return (
     <div className="relative w-full">
       <div className="fixed top-0 flex items-center bg-blue-400 w-full h-[50px] z-10">
-        <span className="text-md text-gray-50 font-medium capitalize mx-[10px]">
-          { String(process.env.REACT_APP_NAME || '').toLowerCase() }
-        </span>
+        <div className="flex items-center">
+          <PaperAirplaneIcon className="icon w-6 h-6 mx-[5px]" />
+          <span className="text-md text-gray-50 font-medium capitalize">
+            { String(process.env.REACT_APP_NAME || '').toLowerCase() }
+          </span>
+        </div>
       </div>
       <div className="p-[10px] mt-[55px]">
         { children }

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/index.css';
+import './styles/style.scss';
 import PageList from './components/PageList';
 import PageListAdd from './components/PageListAdd';
 import PageListEdit from './components/PageListEdit';
