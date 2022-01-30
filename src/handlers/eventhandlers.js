@@ -48,7 +48,7 @@ function createForm(state, type = 'search') {
   if (state?.cities && state.cities?.length > 0) {
     formConfigs['Kota'] = { type: 'select', placeholder: 'Pilih kota', options: state.cities?.map(item => ({ value: item, label: item })) }
   }
-  if (state?.listCurrent && Object.keys(state.listCurrent).length > 0) {
+  if (type === 'edit' && state?.listCurrent && Object.keys(state.listCurrent).length > 0) {
     const current = state.listCurrent
     formConfigs['Nama Komoditas'].defaultValue = current?.komoditas || null
     formConfigs['Provinsi'].defaultValue = current?.areaProvinsi || null
@@ -68,7 +68,8 @@ async function handlePagination(page, state, dispatch) {
   dispatch({ type: 'SET_LOADING', payload: false })
 }
 
-async function handleRemove(id, dispatch, navigate) {
+async function handleRemove(id, state, dispatch) {
+  const object = state?.params || null
   const quest = window.confirm(`Apakah anda yakin menghapus "${id}"?`);
   if (quest) {
     dispatch({ type: 'SET_LOADING', payload: true })
@@ -76,7 +77,8 @@ async function handleRemove(id, dispatch, navigate) {
     dispatch({ type: 'SET_LOADING', payload: false })
     dispatch({ type: 'SET_LISTS', payload: [] })
     await new Promise((resolve) => setTimeout(resolve, 100))
-    navigate('/list');
+    const lists = await ApiList.get(object ? { search: object } : {})
+    dispatch({ type: 'SET_LISTS', payload: lists })
   }
 }
 
@@ -124,6 +126,7 @@ async function handleSubmit(payloads, state, dispatch, navigate, type) {
     const objectNew = Object.assign({ id: uuidv4() }, object)
     await ApiList.add(objectNew)
     dispatch({ type: 'SET_LOADING', payload: false })
+    dispatch({ type: 'SET_LISTS', payload: [] })
     await new Promise((resolve) => setTimeout(resolve, 100))
     navigate('/')
   } else if (type === 'edit') {

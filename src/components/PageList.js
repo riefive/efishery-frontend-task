@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { ChevronLeftIcon, ChevronRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { Loading, Refreshing, NotFound } from './Support';
@@ -9,7 +9,6 @@ import { StoreContext } from '../handlers/stores';
 import { handlePagination, handleRemove, handleSearch } from '../handlers/eventhandlers'
 
 function PageList() {
-  const navigate = useNavigate();
   const {point, Layout } = LayoutSelect()
   const [ page, setPage ] = useState(1)
   const [ state, dispatch ] = useContext(StoreContext)
@@ -45,7 +44,8 @@ function PageList() {
         (() => {
           const RefreshComponent = <Refreshing click={
             () => { 
-              fetchData().then(result => {
+              fetchData(state).then(result => {
+                dispatch({ type: 'SET_PARAMS', payload: null })
                 dispatch({ type: 'SET_LISTS', payload: result })
                 setPage(1)
               })
@@ -86,7 +86,7 @@ function PageList() {
                         </Link>
                       </td>
                       <td colSpan={2} className="p-[5px]">
-                        <button className="button bg-red-400" onClick={() => handleRemove(item.uuid || item.komoditas, dispatch, navigate)}>
+                        <button className="button bg-red-400" onClick={() => handleRemove(item.uuid || item.komoditas, state, dispatch)}>
                           <TrashIcon className="w-5 h-5" />
                           Hapus
                         </button>
@@ -104,7 +104,7 @@ function PageList() {
                     </Link>
                   </div>
                   <div className="p-[5px]">
-                    <button className="button bg-red-400 w-10 h-10" onClick={() => handleRemove(item.uuid || item.komoditas, dispatch, navigate)}>
+                    <button className="button bg-red-400 w-10 h-10" onClick={() => handleRemove(item.uuid || item.komoditas, state, dispatch)}>
                       <TrashIcon className="w-5 h-5" />
                     </button>
                   </div>

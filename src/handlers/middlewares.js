@@ -23,8 +23,9 @@ export async function fetchInit() {
   return { provinces, cities, sizes: Array.isArray(sizes) ? sizes : [] }
 }
 
-export async function fetchData() {
-  const lists = await ApiList.get()
+export async function fetchData(state) {
+  const object = state?.params || null
+  const lists = await ApiList.get(object ? { search: object } : {})
   return Array.isArray(lists) ? lists : []
 }
 
@@ -46,7 +47,7 @@ export function Initialized(state, dispatch) {
       dispatch({ type: 'SET_SIZES', payload: result?.sizes })
     }
   })
-  fetchData().then(result => {
+  fetchData(state).then(result => {
     if (state?.lists && state.lists.length === 0) {
       dispatch({ type: 'SET_LISTS', payload: result })
     }
