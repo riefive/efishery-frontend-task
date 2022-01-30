@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
-import { ChevronLeftIcon, ChevronRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
+import { ArrowUpIcon, ArrowDownIcon, ChevronLeftIcon, ChevronRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { Loading, Refreshing, NotFound } from './Support';
 import { tableColumns } from '../handlers/constants';
 import { fetchData, Initialized, LayoutSelect } from '../handlers/middlewares';
@@ -11,6 +11,7 @@ import { handlePagination, handleRemove, handleSearch } from '../handlers/eventh
 function PageList() {
   const {point, Layout } = LayoutSelect()
   const [ page, setPage ] = useState(1)
+  const [ rendered, setRendered ] = useState(false)
   const [ state, dispatch ] = useContext(StoreContext)
 
   const formConfigs = {
@@ -37,6 +38,37 @@ function PageList() {
   useEffect(() => {
     Initialized(state, dispatch)
   }, [])
+
+  function handleColumn(index, item, lists) {
+    setRendered(true)
+    if (item.sort) {
+      const name = item.name || null
+      const sort = item.sort === 'asc' ? 'desc' : 'asc'
+      tableColumns[index].sort = sort
+      setTimeout(() => {
+        setRendered(false)
+      }, 150)
+      if (name === 'comodity') {
+        if (sort === 'asc') {
+          lists.sort((a, b) => a.komoditas > b.komoditas ? -1 : 1)
+        } else {
+          lists.sort((a, b) => a.komoditas < b.komoditas ? -1 : 1)
+        }
+      } else if (name === 'size') {
+        if (sort === 'asc') {
+          lists.sort((a, b) => Number(a.size) - Number(b.size))
+        } else {
+          lists.sort((a, b) => Number(b.size) - Number(a.size))
+        }
+      } else if (name === 'price') {
+        if (sort === 'asc') {
+          lists.sort((a, b) => Number(a.price) - Number(b.price))
+        } else {
+          lists.sort((a, b) => Number(b.price) - Number(a.price))
+        }
+      }
+    }
+  }
   
   return (
     <Layout>
@@ -52,29 +84,45 @@ function PageList() {
             }
             } />
 
-          if (state.loading) {
+          if (state.loading || rendered) {
             return <Loading />
-          } else if (state?.lists && state.lists?.length > 0) {
+          } else if (!rendered && state?.lists && state.lists?.length > 0) {
+            const lists = state.lists || []
             const Rows = []
             const Columns = []
             tableColumns?.forEach((item, index) => {
-              Columns.push(<th key={index} className="text-sm text-blue-600 font-medium uppercase p-[8px]">{item.text}</th>)
+              const SortIcon = item.sort && item.sort === 'asc' ? 
+                <ArrowDownIcon className="w-4 h-4 text-blue-400 mt-[2px]" /> : <ArrowUpIcon className="w-4 h-4 text-blue-400 mt-[2px]" />
+              Columns.push(
+                <th key={index} className="text-sm text-blue-600 font-medium uppercase p-[8px]">
+                  <div className="flex justify-between items-center cursor-pointer" onClick={() => handleColumn(index, item, lists)}>
+                    {item.text}
+                    { SortIcon }
+                  </div>
+                </th>
+              )
             })
             if (!['xs', 'sm', 'md'].includes(point)) {
               Columns.push(<th key={Columns.length} className="text-sm text-blue-600 font-medium uppercase p-[8px]">Aksi</th>)
             }
-            const lists = state.lists
             lists?.forEach((item, index) => {
-              const rowClass = 'border-collapse border-t border-blue-400 p-[10px]'
+              const rowClass = 'text-sm border-collapse border-t border-blue-400 p-[10px]'
+              item.komoditas = item.komoditas || ''
+              item.size = item.size || 0
+              item.price = item.price || 0
               if (['xs', 'sm', 'md'].includes(point)) {
                 Rows.push(
                   <tr key={index}>
-                    <td className={rowClass}>{((page - 1) * 15) + (index + 1)}. {item.komoditas || 'Tidak Ada Nama'}</td>
-                    <td className={rowClass}>{item.size || 0}</td>
-                    <td className={rowClass}>Rp. {item.price || 0}</td>
+                    <td className={rowClass}>
+                      <span className="text-sm font-medium">
+                        {((page - 1) * 15) + (index + 1)}. {item.komoditas.toString().trim() !== '' ? item.komoditas : 'Tidak Ada Nama'}
+                      </span>
+                    </td>
+                    <td className={rowClass}>{item.size}</td>
+                    <td className={rowClass}>Rp. {item.price}</td>
                   </tr>
                 )
-                if (item.uuid || item.komoditas) {
+                if (item.uuid || (item.komoditas && item.komoditas.toString().trim() !== '')) {
                   Rows.push(
                     <tr key={'button-' + index}>
                       <td className="p-[5px]">

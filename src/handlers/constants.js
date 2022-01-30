@@ -5,7 +5,7 @@ export const menus = [
 ] 
 
 export const tableColumns = [
-  { name: 'comodity', text: 'Nama Komoditas' },
-  { name: 'size', text: 'Ukuran' },
-  { name: 'price', text: 'Harga' }
+  { name: 'comodity', text: 'Komoditas', sort: 'asc' },
+  { name: 'size', text: 'Ukuran', sort: 'asc' },
+  { name: 'price', text: 'Harga', sort: 'asc' }
 ]
