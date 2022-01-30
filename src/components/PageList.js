@@ -76,7 +76,7 @@ function PageList() {
         (() => {
           const RefreshComponent = <Refreshing click={
             () => { 
-              fetchData(state).then(result => {
+              fetchData().then(result => {
                 dispatch({ type: 'SET_PARAMS', payload: null })
                 dispatch({ type: 'SET_LISTS', payload: result })
                 setPage(1)
