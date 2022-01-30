@@ -1,10 +1,10 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { ArrowUpIcon, ArrowDownIcon, ChevronLeftIcon, ChevronRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { Loading, Refreshing, NotFound } from './Support';
 import { tableColumns } from '../handlers/constants';
-import { fetchData, Initialized, LayoutSelect } from '../handlers/middlewares';
+import { fetchInit, fetchData, LayoutSelect } from '../handlers/middlewares';
 import { StoreContext } from '../handlers/stores';
 import { handlePagination, handleRemove, handleSearch } from '../handlers/eventhandlers'
 import { debounce } from '../helpers/commons'
@@ -15,7 +15,6 @@ function PageList() {
   const [ theLists, setTheLists ] = useState([])
   const [ rendered, setRendered ] = useState(false)
   const [ state, dispatch ] = useContext(StoreContext)
-  const initialRef = useRef(true)
 
   const formConfigs = {
     "Cari Komoditas": { type: 'text', placeholder: 'Silahkan isi dengan komoditas' },
@@ -24,7 +23,27 @@ function PageList() {
 
   if (state?.params?.name) {
     formConfigs['Cari Komoditas'].defaultValue = state.params.name
-  }  
+  }
+  
+  async function running() {
+    setRendered(true)
+    const result = await fetchInit()
+    const lists = await fetchData(state)
+    if (state?.provinces && state.provinces.length === 0) {
+      dispatch({ type: 'SET_PROVINCES', payload: result?.provinces })
+    }
+    if (state?.cities && state.cities.length === 0) {
+      dispatch({ type: 'SET_CITIES', payload: result?.cities })
+    }
+    if (state?.sizes && state.sizes.length === 0) {
+      dispatch({ type: 'SET_SIZES', payload: result?.sizes })
+    }
+    if (state?.lists && state.lists.length === 0) {
+      dispatch({ type: 'SET_LISTS', payload: lists })
+    }
+    setTheLists(lists)
+    setRendered(false)
+  }
 
   const clickPrevious = () => {
     if (page <= 1) return
@@ -39,16 +58,8 @@ function PageList() {
   }
 
   useEffect(() => {
-    if (!initialRef.current) return
-    initialRef.current = false
-    Initialized(state, dispatch)
-    fetchData(state).then(result => {
-      if (state?.lists && state.lists.length === 0) {
-        dispatch({ type: 'SET_LISTS', payload: result })
-      }
-      setTheLists(result)
-    })
-  }, [Initialized]) // eslint-disable-line react-hooks/exhaustive-deps
+    running() 
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleFilter(event, item, lists) {
     const name = item.name || null

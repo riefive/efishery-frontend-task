@@ -8,7 +8,7 @@ function LayoutWide({ children }) {
   const body = document?.querySelector('body') || null
   if (body) {
     body.style.zoom = 1
-    setTimeout(() => { body.style.zoom = 0.75 }, 50)
+    setTimeout(() => { body.style.zoom = 0.75 }, 5)
   }
   return (
     <div className="flex bg-white w-full">

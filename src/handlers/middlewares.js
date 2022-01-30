@@ -34,17 +34,3 @@ export function LayoutSelect() {
   const Layout = ['xs', 'sm', 'md'].includes(point) ? LayoutSmall : LayoutWide;
   return { point, Layout }
 }
-
-export function Initialized(state, dispatch) {
-  fetchInit().then(result => {
-    if (state?.provinces && state.provinces.length === 0) {
-      dispatch({ type: 'SET_PROVINCES', payload: result?.provinces })
-    }
-    if (state?.cities && state.cities.length === 0) {
-      dispatch({ type: 'SET_CITIES', payload: result?.cities })
-    }
-    if (state?.sizes && state.sizes.length === 0) {
-      dispatch({ type: 'SET_SIZES', payload: result?.sizes })
-    }
-  })
-}
