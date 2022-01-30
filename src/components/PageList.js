@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import JsonToForm from 'json-reactform';
 import { ArrowUpIcon, ArrowDownIcon, ChevronLeftIcon, ChevronRightIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
@@ -10,11 +10,12 @@ import { handlePagination, handleRemove, handleSearch } from '../handlers/eventh
 import { debounce } from '../helpers/commons'
 
 function PageList() {
-  const {point, Layout } = LayoutSelect()
+  const { point, Layout } = LayoutSelect()
   const [ page, setPage ] = useState(1)
   const [ theLists, setTheLists ] = useState([])
   const [ rendered, setRendered ] = useState(false)
   const [ state, dispatch ] = useContext(StoreContext)
+  const initialRef = useRef(true)
 
   const formConfigs = {
     "Cari Komoditas": { type: 'text', placeholder: 'Silahkan isi dengan komoditas' },
@@ -38,6 +39,8 @@ function PageList() {
   }
 
   useEffect(() => {
+    if (!initialRef.current) return
+    initialRef.current = false
     Initialized(state, dispatch)
     fetchData(state).then(result => {
       if (state?.lists && state.lists.length === 0) {
@@ -45,7 +48,7 @@ function PageList() {
       }
       setTheLists(result)
     })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [Initialized]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleFilter(event, item, lists) {
     const name = item.name || null

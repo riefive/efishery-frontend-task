@@ -8,7 +8,6 @@ function LayoutSmall({ children }) {
   const body = document?.querySelector('body') || null
   if (body) {
     body.style.zoom = 1
-    setTimeout(() => { body.style.zoom = 1 }, 50)
   }
   return (
     <div className="relative w-full">
