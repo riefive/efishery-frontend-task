@@ -23,3 +23,32 @@
 - Command: $ npm run build
 - Command: $ npm install -g serve
 - Command: $ serve -s build
+
+## Docker
+### Development
+1. Build
+- Command: $ docker build -t sample:dev .
+2. Run
+- Command: 
+  (if command "${PWD}" not run try to use "%cd%")
+  $ docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3005:3000 -e CHOKIDAR_USEPOLLING=true sample:dev
+  or
+  $ docker run \
+    -it \
+    --rm \
+    -v ${PWD}:/app \
+    -v /app/node_modules \
+    -p 3005:3000 \
+    -e CHOKIDAR_USEPOLLING=true \
+    sample:dev
+3. Use docker compose
+- Command: $ docker-compose up -d --build (to up)
+- Command: $ docker-compose stop
+### Production
+1. Build
+- Command: $ docker build -f Dockerfile.production -t sample:production .
+2. Run
+- Command: $ docker run -it --rm -p 1337:80 sample:production
+3. Use docker compose
+- Command: $ docker-compose -f docker-compose.production.yml up -d --build (to up)
+- Command: $ docker-compose stop
